@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MisterTuga · Limpar metadados</title>
+<style>
+  :root {
+    --ink: #e3ddcf; --muted: #a39d8e; --line: #2c3338; --bg: #0e1113; --paper: #171b1e;
+    --accent: #6fbf8e; --warn: #e0a84a; --red: #d6584d; --roxo: #c27ccc; --roxo-forte: #9b4fa7;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Inter, -apple-system, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+  /* cabeçalho */
+  header.site { border-bottom: 1px solid var(--line); background: var(--bg); position: sticky; top: 0; z-index: 5; }
+  .site-in { max-width: 1180px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 28px; }
+  .logo { display: block; text-decoration: none; }
+  .logo img { width: 150px; height: auto; display: block; }
+  .logo small { display: block; color: var(--muted); font-size: 10px; letter-spacing: 2.4px; text-transform: uppercase; margin-top: 4px; }
+  header nav { display: flex; gap: 26px; margin-left: auto; }
+  header nav a { color: var(--ink); text-decoration: none; font-size: 15px; opacity: .85; }
+  header nav a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+  .stamp { display: inline-block; border: 2px solid var(--red); color: var(--red); font-weight: 800; letter-spacing: 4px; font-size: 15px; padding: 4px 12px; border-radius: 6px; text-transform: uppercase; opacity: .92; }
+  .meta-wrap { border-bottom: 1px solid var(--line); }
+  .meta { max-width: 1180px; margin: 0 auto; padding: 9px 32px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 18px; color: var(--muted); font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; }
+  .meta b { color: var(--ink); font-weight: 700; }
+  .bar-r { display: inline-block; background: #000; color: #000; border: 1px solid #3a4146; border-radius: 2px; user-select: none; font-style: normal; }
+
+  main.wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px 40px; }
+
+  /* topo */
+  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; padding: 56px 0 40px; }
+  .eyebrow { color: var(--roxo); font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-size: 52px; line-height: 1.08; margin: 0 0 20px; letter-spacing: -.5px; font-weight: 700; }
+  .lead { color: var(--muted); border-left: 3px solid var(--roxo); padding-left: 14px; font-size: 18px; max-width: 620px; margin: 0 0 26px; }
+  .facts { list-style: none; display: flex; gap: 12px; padding: 0; margin: 0; flex-wrap: wrap; }
+  .facts li { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px; min-width: 150px; }
+  .facts b { display: block; font-size: 19px; color: var(--ink); }
+  .facts span { color: var(--muted); font-size: 13px; }
+  .annex { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 0; }
+  .annex figure { margin: 0; background: var(--paper); border: 1px solid var(--line); padding: 6px 6px 8px; border-radius: 4px; }
+  .annex img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border-radius: 2px; filter: grayscale(.55) contrast(1.05) brightness(.92); }
+  .annex figcaption { margin-top: 6px; font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); text-align: center; }
+
+  /* passos */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 0 0 34px; scroll-margin-top: 80px; }
+  .step { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px 20px 18px; position: relative; }
+  .step .num { display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: 2px; color: var(--roxo); border: 1.5px solid var(--roxo); border-radius: 4px; padding: 1px 8px; margin-bottom: 12px; }
+  .step h3 { margin: 0 0 6px; font-size: 19px; }
+  .step p { margin: 0; color: var(--muted); font-size: 15px; }
+  .step:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); color: #5b6368; font-size: 20px; background: var(--bg); width: 12px; text-align: center; z-index: 1; }
+
+  /* ferramenta */
+  .work { display: grid; grid-template-columns: 1.25fr .75fr; gap: 36px; align-items: start; scroll-margin-top: 80px; }
+  .tool { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 26px; }
+  .drop { background: var(--paper); border: 2px dashed #5b6368; border-radius: 6px; padding: 46px 24px; text-align: center; transition: background .15s, border-color .15s; }
+  .drop.sobre { border-color: var(--accent); background: #14211b; }
+  .drop strong { display: block; font-size: 18px; margin-bottom: 6px; }
+  .drop span { color: var(--muted); font-size: 14px; }
+  .btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+  .go-row { justify-content: flex-start; }
+  button, label.btn { font: inherit; font-size: 15px; font-weight: 600; border: 0; border-radius: 6px; padding: 12px 18px; cursor: pointer; background: var(--roxo-forte); color: #fff; }
+  button.alt, label.btn.alt { background: transparent; color: var(--ink); border: 1.5px solid #5b6368; }
+  button:disabled { background: #2c3338; color: #7d786c; cursor: default; }
+  input[type=file] { display: none; }
+  #lp-lista { margin: 22px 0 0; padding: 0 14px; list-style: none; font-size: 14px; max-height: 340px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+  #lp-lista:empty { display: none; }
+  #lp-lista li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px dashed var(--line); }
+  #lp-lista li:first-child { border-top: 0; }
+  #lp-lista .n { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #lp-lista .s { color: var(--muted); text-align: right; max-width: 55%; font-size: 13px; }
+  #lp-lista .ok { color: var(--accent); } #lp-lista .tem { color: var(--warn); } #lp-lista .erro { color: #e0786e; }
+  .bar { height: 8px; background: #242a2e; border-radius: 2px; overflow: hidden; margin-top: 18px; display: none; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .15s; }
+  #lp-msg { margin-top: 16px; font-weight: 600; color: var(--accent); }
+  #lp-msg:empty { display: none; }
+  .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
+  .mode { display: flex; gap: 10px; align-items: flex-start; background: var(--paper); border: 1.5px solid var(--line); border-radius: 6px; padding: 12px 14px; cursor: pointer; }
+  .mode input { margin-top: 5px; accent-color: var(--roxo-forte); }
+  .mode small { display: block; color: var(--muted); font-size: 13px; line-height: 1.4; margin-top: 2px; }
+  .mode:has(input:checked) { border-color: var(--roxo); background: #1b1520; }
+  .row2 { display: flex; gap: 10px; align-items: center; margin-top: 16px; color: var(--muted); font-size: 15px; flex-wrap: wrap; }
+  select { background: var(--paper); color: var(--ink); border: 1.5px solid #5b6368; border-radius: 6px; padding: 9px 12px; font: inherit; font-size: 15px; max-width: 100%; }
+  .opt { display: flex; gap: 10px; align-items: center; margin-top: 16px; font-size: 15px; color: var(--muted); cursor: pointer; }
+  .opt input { width: 18px; height: 18px; accent-color: var(--roxo-forte); }
+  .extra { margin-top: 18px; border: 1px solid var(--line); border-radius: 8px; padding: 6px 16px 10px; background: #14181b; }
+  .extra-h { display: flex; justify-content: space-between; align-items: center; padding: 10px 0 4px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .extra .opt { align-items: flex-start; margin-top: 10px; font-size: 14.5px; color: var(--ink); }
+  .extra .opt span { opacity: .92; }
+  .extra .opt.sub { margin-left: 28px; color: var(--muted); }
+  .extra .opt input { margin-top: 3px; flex: 0 0 auto; }
+  button.link { background: none; border: 0; color: var(--roxo); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+
+  /* lado: antes e depois */
+  .side { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 84px; }
+  .ba { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .ba-head { padding: 12px 18px; border-bottom: 1px solid var(--line); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .ba-t { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .ba-t th { text-align: left; padding: 12px 14px 8px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
+  .ba-t th.b { color: var(--red); } .ba-t th.a { color: var(--accent); background: #101a15; }
+  .ba-t td { padding: 9px 14px; border-top: 1px solid var(--line); vertical-align: middle; overflow-wrap: break-word; }
+  .ba-t td:first-child { color: var(--muted); width: 1%; white-space: nowrap; }
+  .ba-t td.a { background: #101a15; }
+  .ba .bar-r { color: #7d868b; font-size: 11px; letter-spacing: 1.2px; padding: 2px 8px; text-transform: uppercase; white-space: nowrap; }
+  .ba-foot { padding: 12px 18px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  .ba-foot b { color: var(--accent); }
+  .box { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px; font-size: 15px; }
+  .box h2 { font-size: 17px; margin: 0 0 8px; }
+  .box.privacy { border-left: 4px solid var(--accent); }
+  .side p { margin: 0; font-size: 15px; color: var(--muted); }
+
+  /* cinco pontos */
+  h2.sec { margin: 64px 0 14px; font-size: 24px; border-bottom: 1px solid var(--line); padding-bottom: 8px; scroll-margin-top: 80px; }
+  .cards { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; margin-top: 20px; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--c); border-radius: 10px; padding: 22px 24px; position: relative; }
+  .card .ico { position: absolute; top: 20px; right: 22px; width: 34px; height: 34px; color: var(--c); opacity: .9; }
+  .card .ico svg { width: 100%; height: 100%; }
+  .card .tag { display: inline-block; border: 1.5px solid var(--c); padding: 1px 8px; border-radius: 3px; margin-bottom: 10px; font-size: 11px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--c); }
+  .card h3 { font-size: 19px; line-height: 1.3; margin: 0 0 8px; }
+  .card p { margin: 0; font-size: 15px; color: var(--ink); opacity: .9; }
+  .card ul { margin: 0; padding-left: 18px; font-size: 15px; } .card li { margin: 3px 0; }
+  .card .big { font-size: 76px; line-height: 1; font-weight: 800; color: var(--c); letter-spacing: -2px; margin: 4px 0 2px; }
+  .card.good { --c: var(--accent); background: #131d18; grid-column: 1 / span 2; }
+  .card.good h3 { font-size: 16px; color: var(--muted); font-weight: 600; }
+  .card.out { --c: #e0584d; grid-column: 3 / span 4; }
+  .card.keep { --c: #6aa9e0; grid-column: 1 / span 2; }
+  .card.warn { --c: var(--warn); background: #1f1a10; grid-column: 3 / span 2; }
+  .card.lim { --c: var(--muted); grid-column: 5 / span 2; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .chips span { border: 1px solid #5b2a27; background: #241615; color: #f0b3ad; border-radius: 4px; padding: 5px 12px; font-size: 14px; }
+  .chips span.extra-chip { border-style: dashed; opacity: .85; }
+
+  .site-foot { border-top: 1px solid var(--line); margin-top: 20px; padding: 30px 20px 46px; }
+  .foot { text-align: center; color: #5f6a70; font-size: 12px; letter-spacing: 3px; }
+  .foot b { color: #8a8f93; font-weight: 600; }
+
+  @media (max-width: 1000px) {
+    .hero { grid-template-columns: 1fr; gap: 34px; padding-top: 36px; } .hero h1 { font-size: 40px; }
+    .work { grid-template-columns: 1fr; } .side { position: static; }
+    .steps { grid-template-columns: 1fr 1fr; } .step:nth-child(2)::after { display: none; }
+    .cards { grid-template-columns: 1fr 1fr; } .card.good, .card.out, .card.keep, .card.warn, .card.lim { grid-column: auto; } .card.out { grid-column: 1 / -1; }
+    header nav { display: none; } .site-in { gap: 14px; } .stamp { margin-left: auto; }
+  }
+  @media (max-width: 640px) {
+    main.wrap { padding: 0 18px 30px; } .site-in { padding: 12px 18px; } .meta { padding: 9px 18px; }
+    .hero h1 { font-size: 34px; } .facts li { min-width: 0; flex: 1 1 140px; }
+    .steps { grid-template-columns: 1fr; } .step::after { display: none !important; }
+    .modes { grid-template-columns: 1fr; } .tool { padding: 16px; }
+    .cards { grid-template-columns: 1fr; } .card.out { grid-column: auto; }
+  }
+</style>
+</head>
+<body id="lp-pagina">
+<header class="site">
+  <div class="site-in">
+    <a class="logo" href="#"><img alt="MisterTuga" src="marca/mistertuga-branco.png"><small>Camisolas de futebol · Portugal</small></a>
+    <nav><a href="#como">Como funciona</a><a href="#ferramenta">Ferramenta</a><a href="#faz">O que faz</a></nav>
+    <div class="stamp">Confidencial</div>
+  </div>
+</header>
+<div class="meta-wrap"><div class="meta"><span>Ficha de jogo <b>Nº 10</b></span><span>Equipa <b>MisterTuga</b></span><span>Acesso: <b>só o balneário</b></span><span>Tática: <b class="bar-r">XXXXXXXX</b></span><span>Origem: <b class="bar-r">XXXXXX</b></span></div></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Ferramenta interna · só para o balneário</div>
+      <h1>Limpar metadados<br>dos criativos</h1>
+      <p class="lead">Arrasta os vídeos e as fotos das camisolas, soltos ou numa pasta inteira. No fim ficas com os mesmos ficheiros, sem perder qualidade nenhuma e sem o rasto escondido nos dados: o programa e o codificador (também o da Meta), datas, títulos internos, telemóvel, localização GPS e etiquetas de IA.</p>
+      <ul class="facts">
+        <li><b>0%</b><span>perda de qualidade</span></li>
+        <li><b>100%</b><span>no teu Mac</span></li>
+        <li><b>Vídeos e fotos</b><span>MP4, MOV, JPG, PNG e WebP</span></li>
+      </ul>
+    </div>
+    <div class="annex">
+      <figure><img alt="" src="marca/anexo-a.jpg"><figcaption>Anexo A</figcaption></figure>
+      <figure><img alt="" src="marca/anexo-b.jpg"><figcaption>Anexo B</figcaption></figure>
+      <figure><img alt="" src="marca/anexo-c.jpg"><figcaption>Anexo C</figcaption></figure>
+      <figure><img alt="" src="marca/anexo-d.jpg"><figcaption>Anexo D</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="steps" id="como">
+    <div class="step"><span class="num">01</span><h3>Abre</h3><p>Na app MisterTuga, separador Metadados. Também abre no Chrome.</p></div>
+    <div class="step"><span class="num">02</span><h3>Arrasta</h3><p>Os vídeos e as fotos, soltos ou numa pasta inteira, para a caixa.</p></div>
+    <div class="step"><span class="num">03</span><h3>Escolhe</h3><p><b>Só ver</b> mostra o que escondem. <b>Limpar</b> apaga o rasto.</p></div>
+    <div class="step"><span class="num">04</span><h3>Guarda</h3><p>Numa pasta à tua escolha ou em zips de cerca de 600 MB.</p></div>
+  </section>
+
+  <section class="work" id="ferramenta">
+    <div class="tool">
+      <div class="drop" id="lp-drop">
+        <strong>Depositar ficheiros aqui</strong>
+        <span>Arrasta vídeos, fotos ou uma pasta inteira. Tudo acontece no teu Mac, nada é enviado para a internet.</span>
+        <div class="btns">
+          <label class="btn">Escolher ficheiros<input id="lp-ficheiros" type="file" accept=".mp4,.mov,.m4v,.jpg,.jpeg,.png,.webp,video/mp4,video/quicktime,image/jpeg,image/png,image/webp" multiple></label>
+          <label class="btn alt">Escolher pasta<input id="lp-pasta" type="file" webkitdirectory multiple></label>
+        </div>
+      </div>
+
+      <ul id="lp-lista"></ul>
+      <div class="bar" id="lp-barra"><i id="lp-encher"></i></div>
+      <div id="lp-msg"></div>
+
+      <div class="modes">
+        <label class="mode"><input type="radio" name="lp-modo" value="limpar" checked><span><b>Limpar</b><small>apaga o rasto e guarda os ficheiros</small></span></label>
+        <label class="mode"><input type="radio" name="lp-modo" value="ver"><span><b>Só ver</b><small>mostra o que cada ficheiro esconde, sem mudar nada</small></span></label>
+      </div>
+      <div id="lp-opcoes">
+        <div class="row2"><span>Guardar:</span>
+          <select id="lp-destino"><option value="pasta">direto numa pasta (sem limite de tamanho)</option><option value="zip">em zips de cerca de 600 MB</option></select></div>
+        <label class="opt"><input type="checkbox" id="lp-sufixo"> Acrescentar «-limpo» ao nome de cada ficheiro</label>
+        <div class="extra">
+          <div class="extra-h"><span>Limpeza extra</span><button type="button" class="link" id="lp-maximo">marcar tudo (máxima)</button></div>
+          <label class="opt"><input type="checkbox" id="lp-neutros"><span><b>Nomes neutros.</b> Troca nomes como «CR7_final_META_v3.mp4» por video-0001.mp4.</span></label>
+          <label class="opt sub"><input type="checkbox" id="lp-mapa" checked><span>Guardar também um ficheiro com o mapa dos nomes (original e novo)</span></label>
+          <label class="opt"><input type="checkbox" id="lp-icc"><span><b>Perfil de cor das fotos.</b> Remove-o também. As cores podem mudar ligeiramente em ecrãs largos.</span></label>
+          <label class="opt"><input type="checkbox" id="lp-png" checked><span><b>Normalizar PNG.</b> Apaga a assinatura do programa que gravou o ficheiro e o tamanho físico.</span></label>
+        </div>
+      </div>
+      <div class="btns go-row">
+        <button id="lp-ir" disabled>Apagar rasto e guardar</button>
+        <button id="lp-esvaziar" class="alt" disabled>Esvaziar a lista</button>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="ba">
+        <div class="ba-head">Exemplo real: um vídeo descarregado da Meta</div>
+        <table class="ba-t"><thead><tr><th></th><th class="b">Antes</th><th class="a">Depois</th></tr></thead><tbody>
+          <tr><td>Programa</td><td>Lavf61.1.100</td><td class="a"><i class="bar-r">apagado</i></td></tr>
+          <tr><td>Codificador</td><td>Lavc61.3.100 h264_fbv</td><td class="a"><i class="bar-r">apagado</i></td></tr>
+          <tr><td>Título</td><td>1378492933196474</td><td class="a"><i class="bar-r">apagado</i></td></tr>
+          <tr><td>Faixas</td><td>VideoHandler, SoundHandler</td><td class="a"><i class="bar-r">apagado</i></td></tr>
+        </tbody></table>
+        <div class="ba-foot"><b>✓ Imagem e som exatamente iguais.</b> O vídeo não é refeito e fica com o mesmo tamanho.</div>
+      </div>
+      <div class="box privacy">
+        <h2>Privacidade</h2>
+        <p>Os ficheiros nunca saem do teu Mac. Não há servidor, nem conta, nem internet: a limpeza acontece dentro desta página.</p>
+      </div>
+    </aside>
+  </section>
+
+  <section id="faz">
+    <h2 class="sec">O que faz, em cinco pontos</h2>
+    <div class="cards">
+      <div class="card good">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div class="tag">Qualidade</div>
+        <div class="big">0%</div>
+        <h3>de perda de qualidade</h3>
+        <p>Nada é refeito nem recomprimido. A imagem e o som ficam byte a byte iguais e o vídeo mantém o tamanho. Só se apagam os blocos escondidos do ficheiro.</p>
+      </div>
+      <div class="card out">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="16" rx="1.5"/></svg></div>
+        <div class="tag">Cartão vermelho</div>
+        <h3>Todo o rasto escondido sai de campo</h3>
+        <p>Tudo o que um vídeo ou uma foto guarda por trás, sem se ver. Os tracejados são da <b>limpeza extra</b>, que ligas tu:</p>
+        <div class="chips"><span>Programa (Lavf)</span><span>Codificador da Meta</span><span>Assinatura x264 e x265</span><span>Datas de criação</span><span>Título interno</span><span>Nomes das faixas</span><span>Telemóvel e câmara</span><span>GPS</span><span>XMP</span><span>C2PA</span><span>«Feito com IA»</span><span>EXIF</span><span>IPTC</span><span>Comentários</span><span>Prompt (PNG)</span><span>Miniatura embutida</span><span>Blocos privados</span><span>Dados depois do fim</span><span class="extra-chip">Nome do ficheiro</span><span class="extra-chip">Perfil de cor</span><span class="extra-chip">Assinatura nos PNG</span></div>
+      </div>
+      <div class="card keep">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div class="tag">O que fica</div>
+        <h3>Só o necessário para ver bem</h3>
+        <ul><li>A imagem, o som e a duração, tal e qual</li><li>O perfil de cor das fotos, para as cores não mudarem (a menos que o tires na limpeza extra)</li><li>A orientação, se a foto ou o vídeo estiver rodado</li></ul>
+      </div>
+      <div class="card warn">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="16" rx="1.5"/></svg></div>
+        <div class="tag">Cartão amarelo</div>
+        <h3>A imagem e o som contam</h3>
+        <p>A Meta e o TikTok também reconhecem um vídeo pelo que se vê e se ouve. Isso não são metadados e esta limpeza não lhe toca, tal como às marcas de água invisíveis.</p>
+      </div>
+      <div class="card lim">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg></div>
+        <div class="tag">Limites</div>
+        <h3>Formatos</h3>
+        <p>MP4, MOV e M4V; JPG, PNG e WebP, em qualquer quantidade. Fotos HEIC do iPhone não entram, porque convertê-las perderia qualidade.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="site-foot">
+  <div class="foot">FIM DA FICHA · PROCESSADO NO TEU MAC · NADA SAI DESTE COMPUTADOR<br><b>MISTERTUGA · CAMISOLAS DE FUTEBOL · PORTUGAL</b></div>
+</footer>
+<script src="metadados.js"></script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Criativos · todas as lojas</title>
+<style>
+  :root {
+    --fundo: #f5f1ea; --cartao: #ffffff; --linha: #e6ddd0; --texto: #2b2723; --suave: #7a7066;
+    --verde: #6f8f76; --verde-claro: #e7efe8; --rosa: #b07c7c; --rosa-claro: #f4e7e5; --areia: #d8c7ab; --areia-claro: #f1e9dc;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fundo); color: var(--texto); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
+  header { padding: 28px 32px 8px; max-width: 1500px; margin: 0 auto; }
+  h1 { font-size: 26px; font-weight: 650; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { color: var(--suave); margin: 0; }
+  nav { max-width: 1500px; margin: 18px auto 0; padding: 0 32px; display: flex; gap: 6px 20px; flex-wrap: wrap; border-bottom: 1px solid var(--linha); }
+  nav button { background: none; border: 0; padding: 8px 0; font: inherit; color: var(--suave); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  nav button:hover { color: var(--texto); }
+  nav button.ativo { color: var(--texto); font-weight: 600; border-bottom-color: var(--texto); }
+  nav small { color: var(--suave); font-weight: 400; margin-left: 4px; }
+  .barra { max-width: 1500px; margin: 0 auto; padding: 16px 32px 6px; display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; }
+  .resumo { color: var(--suave); }
+  .resumo b { color: var(--texto); font-weight: 600; }
+  .ordem { margin-left: auto; color: var(--suave); }
+  select { font: inherit; padding: 4px 6px; border: 1px solid var(--linha); border-radius: 6px; background: var(--cartao); color: var(--texto); }
+  .explica { max-width: 1500px; margin: 0 auto; padding: 0 32px 14px; color: var(--suave); font-size: 13px; }
+  .explica b { color: var(--texto); font-weight: 600; }
+  main { max-width: 1500px; margin: 0 auto; padding: 8px 32px 60px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+  .cartao { background: var(--cartao); border: 1px solid var(--linha); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .topo { display: flex; align-items: baseline; gap: 10px; padding: 12px 14px 4px; }
+  .pos { font-size: 22px; font-weight: 700; min-width: 34px; }
+  .marca { color: var(--suave); font-size: 13px; }
+  .roas { margin-left: auto; text-align: right; }
+  .roas b { font-size: 22px; font-weight: 700; }
+  .roas span { display: block; font-size: 11px; color: var(--suave); text-transform: uppercase; letter-spacing: 0.04em; }
+  .bom b { color: var(--verde); } .fraco b { color: var(--rosa); }
+  .garante { margin: 2px 14px 10px; padding: 7px 10px; border-radius: 8px; background: var(--verde-claro); font-size: 13px; color: #3f5a46; }
+  .garante.meio { background: var(--areia-claro); color: #6b5a3e; }
+  .garante.pouco { background: var(--rosa-claro); color: #7d4f4f; }
+  .garante b { font-weight: 650; }
+  .video { background: #111; aspect-ratio: 9 / 16; max-height: 470px; width: 100%; display: flex; }
+  .video video, .video img { width: 100%; height: 100%; object-fit: contain; background: #111; }
+  .qual { padding: 6px 14px 0; font-size: 12px; color: var(--suave); }
+  dl { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin: 0; padding: 12px 14px 4px; }
+  dt { font-size: 11px; color: var(--suave); text-transform: uppercase; letter-spacing: 0.04em; }
+  dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .info { padding: 6px 14px 10px; font-size: 13px; color: var(--suave); }
+  .aviso { margin: 8px 14px 4px; padding: 7px 10px; border-radius: 8px; background: var(--rosa-claro); color: #7d4f4f; font-size: 12.5px; }
+  details { padding: 0 14px 10px; font-size: 13px; }
+  summary { cursor: pointer; color: var(--suave); }
+  details p { margin: 6px 0 0; white-space: pre-wrap; }
+  table { width: 100%; border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  th { text-align: left; font-weight: 600; font-size: 11px; color: var(--suave); text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 0 3px; }
+  td { padding: 3px 0; border-top: 1px solid var(--fundo); }
+  td:not(:first-child), th:not(:first-child) { text-align: right; }
+  .analise { margin: 0 14px 12px; padding: 10px 12px; font-size: 13px; background: var(--fundo); border-radius: 8px; }
+  .analise p { margin: 0 0 6px; }
+  .analise .gancho { font-size: 14px; color: var(--texto); }
+  .analise .semvoz, .analise .lingua, .analise .ritmo { color: var(--suave); font-size: 12.5px; }
+  .analise details { padding: 0 0 6px; }
+  .analise a { color: var(--verde); }
+  .vazio { color: var(--suave); padding: 40px 0; }
+  .semvideo { margin: auto; color: #b9b0a5; font-size: 13px; padding: 20px; text-align: center; }
+  footer { max-width: 1500px; margin: 0 auto; padding: 0 32px 40px; color: var(--suave); font-size: 12.5px; }
+  footer a { color: var(--verde); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Os melhores criativos de sempre</h1>
+  <p class="sub" id="sub"></p>
+</header>
+<nav id="mercados"></nav>
+<div class="barra">
+  <div class="resumo" id="resumo"></div>
+  <label class="ordem">Ordenar por
+    <select id="ordem">
+      <option value="pos">ranking (ROAS garantido)</option>
+      <option value="gasto">gasto</option>
+      <option value="roas">ROAS</option>
+      <option value="compras">compras</option>
+      <option value="cpa">custo por compra</option>
+      <option value="aov">valor médio da compra</option>
+      <option value="ctr">CTR (link)</option>
+      <option value="cpc">CPC (link)</option>
+      <option value="cpm">CPM</option>
+      <option value="gancho">gancho (3 s)</option>
+      <option value="retencao">retenção</option>
+      <option value="conv">conversão</option>
+      <option value="tempo">tempo médio visto</option>
+      <option value="envolv_mil">envolvimento</option>
+    </select>
+  </label>
+</div>
+<p class="explica" id="explica"></p>
+<main id="lista"></main>
+<footer id="rodape"></footer>
+<!-- a app de Mac guardava o dados.js antigo em memória: o número no fim obriga a ler sempre o ficheiro de agora -->
+<script>document.write('<script src="dados.js?' + Date.now() + '"><\/script>');</script>
+<script>
+  const D = window.DADOS;
+  const nf = (x, c = 0) => x == null ? "-" : new Intl.NumberFormat("pt-PT", { minimumFractionDigits: c, maximumFractionDigits: c }).format(x);
+  const eur = (x, c = 0) => x == null ? "-" : nf(x, c) + " €";
+  const pct = (x, c = 1) => x == null ? "-" : nf(x, c) + "%";
+  const data = (s) => s ? s.slice(8, 10) + "/" + s.slice(5, 7) + "/" + s.slice(0, 4) : "-";
+  const MESES = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+  const mes = (s) => MESES[+s.slice(5, 7) - 1] + " " + s.slice(0, 4);
+  const esc = (s) => String(s || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const SOBE = new Set(["cpa", "cpc", "cpm"]); // nestes, quanto mais baixo melhor
+  // «a média de Portugal», «da Alemanha», «dos EUA», «do Brasil»
+  const DE = { "EUA": "dos", "Países Baixos": "dos", "Emirados": "dos", "Reino Unido": "do", "Brasil": "do", "Canadá": "do", "México": "do", "Chile": "do", "Peru": "do",
+               "Itália": "da", "Alemanha": "da", "Espanha": "da", "Bélgica": "da", "França": "da", "Dinamarca": "da", "Noruega": "da", "Austrália": "da", "Suíça": "da",
+               "Áustria": "da", "Irlanda": "da", "Suécia": "da", "Polónia": "da", "Argentina": "da", "Colômbia": "da", "Índia": "da" };
+  let atual = new URLSearchParams(location.hash.slice(1)).get("m") || "Todos";
+  const total = D.mercados.find((m) => m.chave === "Todos");
+  document.getElementById("sub").textContent =
+    `Todas as lojas na Meta (MisterTuga, MisterFútbol, TrainerDeutsch, ProfeIbero e BritsManager), ${D.mercados.length - 1} países, ${eur(total.gasto)} gastos, ROAS médio ${nf(total.roas_medio, 2)}. Números de ${D.feito}.`;
+  document.getElementById("explica").innerHTML =
+    `A ordem é pelo <b>ROAS garantido</b>: o ROAS que o criativo aguenta com 90% de certeza, tendo em conta o dinheiro que já gastou e as compras que fez. ` +
+    `Um criativo com 100 € a ROAS 3 ainda não provou nada; um com 16 000 € a ROAS 2,5 provou, e fica à frente. ` +
+    `No separador Todos cada criativo é comparado com a média dos países onde correu, porque o ROAS normal de Portugal e o dos EUA não se comparam. ` +
+    `Gasto, compras e ROAS são os do Gestor de Anúncios. CTR, CPC, gancho e retenção contam sem a Audience Network, onde os cliques são quase todos sem querer.`;
+
+  function desenhaMercados() {
+    document.getElementById("mercados").innerHTML = D.mercados.map((m) =>
+      `<button data-m="${m.chave}" class="${m.chave === atual ? "ativo" : ""}">${m.nome}<small>${m.gasto >= 1000 ? nf(m.gasto / 1000) + " mil €" : eur(m.gasto)}</small></button>`).join("");
+    document.querySelectorAll("nav button[data-m]").forEach((b) => b.onclick = () => { atual = b.dataset.m; location.hash = "m=" + atual; desenha(); });
+  }
+
+  function linhas(pares) {
+    return pares.filter(([, v]) => v !== null && v !== undefined && v !== "-").map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+  }
+  function todasMetricas(f) {
+    const bloco = (titulo, pares) => { const l = linhas(pares); return l ? `<tr><th colspan="2">${titulo}</th></tr>${l}` : ""; };
+    return `<table>
+      ${bloco("Dinheiro", [["Gasto", eur(f.gasto, 2)], ["Vendas atribuídas", eur(f.valor, 2)], ["ROAS", nf(f.roas, 2)], ["ROAS garantido (90%)", nf(f.roas_garantido, 2)],
+        ["ROAS esperado", nf(f.roas_esperado, 2)], ["Compras", nf(f.compras)], ["Compras que faria na média", nf(f.esperado_compras, 0)], ["Custo por compra", eur(f.cpa, 2)], ["Valor médio da compra", eur(f.aov, 2)]])}
+      ${bloco("Anúncio", [["Impressões", nf(f.imp)], ["Alcance (soma)", nf(f.alcance)], ["CPM", eur(f.cpm, 2)], ["CTR (link)", pct(f.ctr, 2)], ["CTR (todos os cliques)", pct(f.ctr_todos, 2)],
+        ["CTR (saída para o site)", pct(f.ctr_saida, 2)], ["CPC (link)", eur(f.cpc, 2)], ["CPC (todos os cliques)", eur(f.cpc_todos, 2)]])}
+      ${f.gancho != null ? bloco("Vídeo", [["Gancho (vistos 3 s)", pct(f.gancho)], ["Retenção (ThruPlay)", pct(f.retencao)], ["Chegaram a 25%", pct(f.v25)], ["Chegaram a 50%", pct(f.v50)],
+        ["Chegaram a 75%", pct(f.v75)], ["Chegaram a 95%", pct(f.v95)], ["Viram até ao fim", pct(f.v100)], ["Tempo médio visto", f.tempo != null ? nf(f.tempo, 1) + " s" : null]]) : ""}
+      ${bloco("Funil", [["Visitas à página", nf(f.lpv)], ["Viram o produto", nf(f.vc)], ["Carrinho", nf(f.carrinho)], ["Checkout", nf(f.checkout)], ["Pagamento", nf(f.pagamento)],
+        ["Compras", nf(f.compras)], ["Conversão (compras por clique)", pct(f.conv, 2)], ["Compras por visita", pct(f.conv_lpv, 2)], ["Custo por carrinho", eur(f.c_carrinho, 2)],
+        ["Custo por checkout", eur(f.c_checkout, 2)], ["Do carrinho à compra", pct(f.carrinho_compra)], ["Do checkout à compra", pct(f.checkout_compra)]])}
+      ${bloco("Envolvimento", [["Reações", nf(f.reac)], ["Comentários", nf(f.coment)], ["Partilhas", nf(f.partilhas)], ["Guardados", nf(f.guardados)], ["Por mil impressões", nf(f.envolv_mil, 1)]])}
+    </table>`;
+  }
+  function porPais(f) {
+    const p = (f.paises || []).filter((x) => x.gasto >= 1);
+    if (p.length < 2) return "";
+    return `<details><summary>Por país (${p.length})</summary><table><tr><th>País</th><th>Gasto</th><th>ROAS</th><th>Compras</th><th>CPA</th></tr>
+      ${p.map((x) => `<tr><td>${esc(x.nome)}</td><td>${eur(x.gasto)}</td><td>${nf(x.roas, 2)}</td><td>${nf(x.compras)}</td><td>${eur(x.cpa, 2)}</td></tr>`).join("")}</table></details>`;
+  }
+  function mesAMes(f) {
+    const ms = f.meses || [];
+    if (ms.length < 2) return "";
+    return `<details><summary>Mês a mês (${ms.length} meses)</summary><table><tr><th>Mês</th><th>Gasto</th><th>ROAS</th><th>Compras</th></tr>
+      ${ms.map((x) => `<tr><td>${mes(x.mes)}</td><td>${eur(x.gasto)}</td><td>${nf(x.roas, 2)}</td><td>${nf(x.compras)}</td></tr>`).join("")}</table></details>`;
+  }
+  const LINGUAS = { en: "inglês", it: "italiano", fr: "francês", de: "alemão", nl: "neerlandês" };
+  function analise(a, m) {
+    if (!a) return "";
+    const certa = { DE: "de", IT: "it", FR: "fr", NL: "nl", GB: "en", US: "en", CA: "en", AU: "en" }[m.chave];
+    const ritmo = [a.dur != null ? `${nf(a.dur, 0)} s` : "", a.cortes10 != null ? `${nf(a.cortes10, 1)} cortes por 10 s` : "", a.corte1 != null ? `1.º corte aos ${nf(a.corte1, 1)} s` : "sem cortes"].filter(Boolean).join(" · ");
+    return `<div class="analise">
+      ${a.gancho ? `<p class="gancho">«${esc(a.gancho)}»${a.lingua && !["pt", "es", certa].includes(a.lingua) ? ` <span class="lingua">(em ${LINGUAS[a.lingua] || a.lingua}: pode ser a letra da música)</span>` : ""}</p>` : `<p class="gancho semvoz">Sem voz: só imagem e música.</p>`}
+      <p class="ritmo">${ritmo}</p>
+      ${a.guiao ? `<details><summary>Guião (transcrição automática)</summary><p>${esc(a.guiao)}</p></details>` : ""}
+      <a href="anuncios/${a.pasta}/ficha.jpg" target="_blank">Ver o gancho e os cortes imagem a imagem</a>
+    </div>`;
+  }
+  function cartao(f, m) {
+    const classe = f.roas >= m.roas_medio * 1.2 ? "bom" : f.roas < m.roas_medio * 0.9 ? "fraco" : "";
+    const q = f.qualidade || {};
+    const video = f.video
+      ? `<video controls preload="none" playsinline poster="media/${f.capa && !f.capa.startsWith("capas/") ? f.capa : f.video}.jpg" src="media/${f.video}.mp4"></video>`
+      : f.capa ? `<img src="media/${f.capa}.jpg" alt="">` : `<p class="semvideo">${f.tipo === "imagem" ? "Imagem por descarregar" : "A Meta já não tem este vídeo"}</p>`;
+    const media = m.chave === "Todos" ? "a média dos países onde correu" : `a média ${DE[m.nome] || "de"} ${m.nome}`;
+    const nivel = f.validacao === "Muito validado" || f.validacao === "Validado" ? "" : f.validacao === "Promissor" ? "meio" : "pouco";
+    return `<article class="cartao">
+      <div class="topo"><span class="pos">${f.pos}</span><span class="marca">${esc(f.marca)}<br>${f.n_ads} anúncio${f.n_ads === 1 ? "" : "s"}</span>
+        <span class="roas ${classe}"><b>${nf(f.roas, 2)}</b><span>ROAS</span></span></div>
+      <div class="garante ${nivel}"><b>Garante ROAS ${nf(f.roas_garantido, 2)}</b> · ${nf(f.forca, 2)}× ${media}<br>${f.validacao} · ${nf(f.compras)} compras em ${eur(f.gasto)}</div>
+      <div class="video">${video}</div>
+      ${q.nota ? `<div class="aviso">${esc(q.nota)}</div>` : q.original ? `<div class="qual">Ficheiro original do Drive (${q.p}p), sem a compressão da Meta.</div>` : q.p ? `<div class="qual">Vídeo em ${q.p}p${q.codec === "av1" ? " (AV1)" : ""}, a melhor versão que a Meta tem.</div>` : ""}
+      <dl>
+        <div><dt>Gasto</dt><dd>${eur(f.gasto)}</dd></div>
+        <div><dt>Vendas atribuídas</dt><dd>${eur(f.valor)}</dd></div>
+        <div><dt>Compras</dt><dd>${nf(f.compras)}</dd></div>
+        <div><dt>Custo por compra</dt><dd>${eur(f.cpa, 2)}</dd></div>
+        <div><dt>CTR (link)</dt><dd>${pct(f.ctr, 2)}</dd></div>
+        <div><dt>CPC (link)</dt><dd>${eur(f.cpc, 2)}</dd></div>
+        <div><dt>CPM</dt><dd>${eur(f.cpm, 2)}</dd></div>
+        <div><dt>Conversão</dt><dd>${pct(f.conv, 2)}</dd></div>
+        <div><dt>Gancho (3 s)</dt><dd>${pct(f.gancho)}</dd></div>
+        <div><dt>Retenção</dt><dd>${pct(f.retencao)}</dd></div>
+      </dl>
+      <div class="info">Desde ${data(f.criado)} · ${esc((f.contas || []).join(", "))}${m.chave === "Todos" ? `<br>${(f.paises || []).slice(0, 4).map((x) => `${esc(x.nome)} ${eur(x.gasto)}`).join(" · ")}` : ""}</div>
+      ${f.an_pct >= 15 ? `<div class="aviso">${f.an_pct}% do gasto foi na Audience Network, onde as compras são menos certas.</div>` : ""}
+      ${analise(f.analise, m)}
+      <details><summary>Todas as métricas</summary>${todasMetricas(f)}</details>
+      ${porPais(f)}
+      ${mesAMes(f)}
+      ${f.texto || f.titulo ? `<details><summary>Texto do anúncio</summary><p>${esc(f.titulo)}${f.titulo && f.texto ? "\n\n" : ""}${esc(f.texto)}</p></details>` : ""}
+    </article>`;
+  }
+  function desenha() {
+    desenhaMercados();
+    const m = D.mercados.find((x) => x.chave === atual) || total;
+    const o = document.getElementById("ordem").value;
+    const itens = [...m.itens].sort((a, b) => o === "pos" ? a.pos - b.pos : SOBE.has(o) ? (a[o] ?? 1e9) - (b[o] ?? 1e9) : (b[o] ?? -1) - (a[o] ?? -1));
+    document.getElementById("resumo").innerHTML =
+      `<b>${m.nome}</b> · gasto ${eur(m.gasto)} · ROAS médio <b>${nf(m.roas_medio, 2)}</b> · ${nf(m.compras)} compras · ${m.candidatos} criativos com pelo menos ${eur(m.minimo)} de gasto e 3 compras, aqui os ${m.itens.length} melhores`;
+    document.getElementById("lista").innerHTML = itens.length ? itens.map((f) => cartao(f, m)).join("") : `<p class="vazio">Sem criativos com gasto suficiente.</p>`;
+  }
+  document.getElementById("ordem").onchange = desenha;
+  document.getElementById("rodape").innerHTML =
+    `Validação pelas compras: muito validado a partir de 300, validado a partir de 100, promissor a partir de 30. ` +
+    `Os dólares das contas em USD passaram a euros pelo câmbio médio de cada mês. O mesmo vídeo carregado várias vezes conta como um criativo. ` +
+    (D.sem_prova || []).filter((x) => x.pais !== "unknown").map((x) => `${x.nome} (${eur(x.gasto)}, ${nf(x.compras)} compras)`).join(", ").replace(/^(.+)$/, "Sem nenhum criativo com 3 compras, por isso sem separador: $1. ") +
+    `A Meta só guarda 37 meses de números. <a href="criativos.csv">Tabela com todos os criativos e todas as métricas (CSV)</a>.`;
+  desenha();
+</script>
+<script src="metadados.js"></script>
+</body>
