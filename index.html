@@ -7,64 +7,181 @@
 <title>Criativos · todas as lojas</title>
 <style>
   :root {
-    --fundo: #f5f1ea; --cartao: #ffffff; --linha: #e6ddd0; --texto: #2b2723; --suave: #7a7066;
-    --verde: #6f8f76; --verde-claro: #e7efe8; --rosa: #b07c7c; --rosa-claro: #f4e7e5; --areia: #d8c7ab; --areia-claro: #f1e9dc;
+    --fundo: #f5f1ea; --cartao: #ffffff; --linha: #e6ddd0; --linha-fina: #efe9df; --texto: #2b2723; --suave: #74695f;
+    --verde: #6f8f76; --verde-claro: #e7efe8; --verde-texto: #3f5a46; --verde-link: #4d6d55;
+    --rosa: #b07c7c; --rosa-claro: #f4e7e5; --rosa-texto: #7d4f4f;
+    --areia: #d8c7ab; --areia-claro: #f1e9dc; --areia-texto: #6b5a3e;
+    /* margens da página: 32 px de cada lado, conteúdo até 1436 px */
+    --gutter: 32px; --largura: 1436px;
+    --margem: max(var(--gutter), (100% - var(--largura)) / 2);
+    --video-alto: 470px;
+    --seta-dir: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 12'%3E%3Cpath d='M1 1l5 5-5 5' fill='none' stroke='%23a59a8e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --seta-cima: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 7'%3E%3Cpath d='M1 6l5-5 5 5' fill='none' stroke='%23a59a8e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --seta-baixo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23a59a8e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   }
   * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
   body { margin: 0; background: var(--fundo); color: var(--texto); font: 15px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
-  header { padding: 28px 32px 8px; max-width: 1500px; margin: 0 auto; }
-  h1 { font-size: 26px; font-weight: 650; margin: 0 0 4px; letter-spacing: -0.01em; }
-  .sub { color: var(--suave); margin: 0; }
-  nav { max-width: 1500px; margin: 18px auto 0; padding: 0 32px; display: flex; gap: 6px 20px; flex-wrap: wrap; border-bottom: 1px solid var(--linha); }
-  nav button { background: none; border: 0; padding: 8px 0; font: inherit; color: var(--suave); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+
+  /* cabeçalho */
+  header { margin: 0 var(--margem); padding: 36px 0 0; }
+  h1 { font-size: 28px; line-height: 1.15; font-weight: 700; letter-spacing: -0.018em; margin: 0; text-wrap: balance; }
+  .sub { color: var(--suave); margin: 8px 0 0; max-width: 64em; text-wrap: pretty; }
+
+  /* separadores dos mercados: uma só linha, o gasto por baixo do nome; corre para o lado quando não cabe */
+  nav { margin: 22px var(--margem) 0; display: flex; gap: 0 26px; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden;
+        box-shadow: inset 0 -1px 0 var(--linha); scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { flex: none; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; text-align: left;
+               white-space: nowrap; background: none; border: 0; border-bottom: 2px solid transparent; padding: 9px 0 8px; margin: 0;
+               font: inherit; font-size: 14.5px; line-height: 1.3; color: var(--suave); cursor: pointer; }
   nav button:hover { color: var(--texto); }
+  nav button:focus-visible { outline: 2px solid var(--verde); outline-offset: -3px; border-radius: 4px; }
   nav button.ativo { color: var(--texto); font-weight: 600; border-bottom-color: var(--texto); }
-  nav small { color: var(--suave); font-weight: 400; margin-left: 4px; }
-  .barra { max-width: 1500px; margin: 0 auto; padding: 16px 32px 6px; display: flex; gap: 24px; align-items: baseline; flex-wrap: wrap; }
-  .resumo { color: var(--suave); }
-  .resumo b { color: var(--texto); font-weight: 600; }
-  .ordem { margin-left: auto; color: var(--suave); }
-  select { font: inherit; padding: 4px 6px; border: 1px solid var(--linha); border-radius: 6px; background: var(--cartao); color: var(--texto); }
-  .explica { max-width: 1500px; margin: 0 auto; padding: 0 32px 14px; color: var(--suave); font-size: 13px; }
+  nav small { display: block; margin: 1px 0 0; font-size: 12px; color: var(--suave); font-weight: 400; font-variant-numeric: tabular-nums; }
+  /* no computador o Metadados fica sempre à vista na ponta direita, mesmo se a janela for estreita */
+  @media (min-width: 641px) {
+    nav #aba-limpeza { position: sticky; right: 0; padding-left: 20px; background: var(--fundo); background-clip: padding-box; }
+  }
+
+  /* resumo e ordenar: os números do mercado aberto; no computador fica preso ao topo ao descer */
+  .barra { margin: 0; padding: 16px var(--margem) 14px; display: flex; gap: 12px 24px; align-items: center; flex-wrap: wrap;
+           background: var(--fundo); border-bottom: 1px solid transparent; }
+  .barra.colada { border-bottom-color: var(--linha); }
+  .resumo { display: flex; align-items: center; gap: 8px 28px; flex-wrap: wrap; color: var(--suave); }
+  .resumo .mercado { font-size: 20px; font-weight: 700; letter-spacing: -0.015em; color: var(--texto); line-height: 1.6;
+                     padding-right: 28px; border-right: 1px solid var(--linha); }
+  .resumo .num { display: flex; flex-direction: column; line-height: 1.25; }
+  .resumo .num small { font-size: 12px; color: var(--suave); }
+  .resumo .num b { font-size: 16px; font-weight: 600; color: var(--texto); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+  .ordem { margin-left: auto; color: var(--suave); font-size: 14px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  select { -webkit-appearance: none; appearance: none; font: inherit; font-size: 14px; color: var(--texto); padding: 6px 30px 6px 11px;
+           border: 1px solid var(--linha); border-radius: 8px; background: var(--cartao) var(--seta-baixo) no-repeat right 11px center / 10px 6px;
+           box-shadow: 0 1px 1px rgba(60, 45, 30, 0.04); cursor: pointer; }
+  select:focus-visible { outline: 2px solid var(--verde); outline-offset: 1px; }
+  .explica { margin: 0 var(--margem); padding: 0 0 20px; color: var(--suave); font-size: 13px; line-height: 1.55; }
+  .explica p { margin: 0; max-width: 64em; text-wrap: pretty; }
   .explica b { color: var(--texto); font-weight: 600; }
-  main { max-width: 1500px; margin: 0 auto; padding: 8px 32px 60px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
-  .cartao { background: var(--cartao); border: 1px solid var(--linha); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
-  .topo { display: flex; align-items: baseline; gap: 10px; padding: 12px 14px 4px; }
-  .pos { font-size: 22px; font-weight: 700; min-width: 34px; }
-  .marca { color: var(--suave); font-size: 13px; }
-  .roas { margin-left: auto; text-align: right; }
-  .roas b { font-size: 22px; font-weight: 700; }
-  .roas span { display: block; font-size: 11px; color: var(--suave); text-transform: uppercase; letter-spacing: 0.04em; }
-  .bom b { color: var(--verde); } .fraco b { color: var(--rosa); }
-  .garante { margin: 2px 14px 10px; padding: 7px 10px; border-radius: 8px; background: var(--verde-claro); font-size: 13px; color: #3f5a46; }
-  .garante.meio { background: var(--areia-claro); color: #6b5a3e; }
-  .garante.pouco { background: var(--rosa-claro); color: #7d4f4f; }
+  /* «Como funciona o ranking»: abre e fecha; a seta troca de desenho, sem rodar */
+  .como { margin-top: 6px; }
+  .como summary { display: inline-block; position: relative; padding-right: 16px; color: var(--texto); font-weight: 500; cursor: pointer; list-style: none; }
+  .como summary::-webkit-details-marker { display: none; }
+  .como summary::after { content: ""; position: absolute; right: 0; top: 50%; width: 9px; height: 6px; margin-top: -2px; background: var(--seta-baixo) no-repeat center / contain; }
+  .como[open] summary::after { background-image: var(--seta-cima); }
+  .como p { margin-top: 4px; }
+  #limpeza { margin-top: 16px; }
+
+  /* grelha de cartões */
+  main { margin: 0 var(--margem); padding: 4px 0 56px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .cartao { background: var(--cartao); border: 1px solid var(--linha); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;
+            box-shadow: 0 1px 2px rgba(60, 45, 30, 0.04), 0 8px 24px -16px rgba(60, 45, 30, 0.14); }
+
+  .topo { display: flex; align-items: baseline; gap: 12px; padding: 15px 16px 12px; }
+  .pos { font-size: 22px; font-weight: 650; line-height: 1; min-width: 24px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .marca { color: var(--suave); font-size: 12.5px; line-height: 1.35; }
+  .marca .nome { display: block; color: var(--texto); font-size: 14px; font-weight: 600; }
+  .roas { margin-left: auto; text-align: right; line-height: 1; }
+  .roas b { font-size: 24px; font-weight: 650; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .roas span { display: block; margin-top: 5px; font-size: 11px; color: var(--suave); letter-spacing: 0.04em; }
+  .bom b { color: var(--verde-texto); } .fraco b { color: var(--rosa-texto); }
+
+  .garante { margin: 0 16px 14px; padding: 9px 12px 10px; border-radius: 10px; background: var(--verde-claro); color: var(--verde-texto); font-size: 12.5px; line-height: 1.45; }
+  .garante.meio { background: var(--areia-claro); color: var(--areia-texto); }
+  .garante.pouco { background: var(--rosa-claro); color: var(--rosa-texto); }
+  .garante p { margin: 0; font-variant-numeric: tabular-nums; }
+  .garante .g1 { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 13.5px; margin-bottom: 1px; }
+  .garante .g1 span { font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .garante .g1 b { font-weight: 500; }
+  .garante .g1 b strong { font-size: 17px; font-weight: 650; letter-spacing: -0.01em; margin-left: 2px; }
   .garante b { font-weight: 650; }
-  .video { background: #111; aspect-ratio: 9 / 16; max-height: 470px; width: 100%; display: flex; }
-  .video video, .video img { width: 100%; height: 100%; object-fit: contain; background: #111; }
-  .qual { padding: 6px 14px 0; font-size: 12px; color: var(--suave); }
-  dl { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin: 0; padding: 12px 14px 4px; }
-  dt { font-size: 11px; color: var(--suave); text-transform: uppercase; letter-spacing: 0.04em; }
-  dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .info { padding: 6px 14px 10px; font-size: 13px; color: var(--suave); }
-  .aviso { margin: 8px 14px 4px; padding: 7px 10px; border-radius: 8px; background: var(--rosa-claro); color: #7d4f4f; font-size: 12.5px; }
-  details { padding: 0 14px 10px; font-size: 13px; }
-  summary { cursor: pointer; color: var(--suave); }
-  details p { margin: 6px 0 0; white-space: pre-wrap; }
-  table { width: 100%; border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; }
-  th { text-align: left; font-weight: 600; font-size: 11px; color: var(--suave); text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 0 3px; }
-  td { padding: 3px 0; border-top: 1px solid var(--fundo); }
-  td:not(:first-child), th:not(:first-child) { text-align: right; }
-  .analise { margin: 0 14px 12px; padding: 10px 12px; font-size: 13px; background: var(--fundo); border-radius: 8px; }
-  .analise p { margin: 0 0 6px; }
-  .analise .gancho { font-size: 14px; color: var(--texto); }
-  .analise .semvoz, .analise .lingua, .analise .ritmo { color: var(--suave); font-size: 12.5px; }
-  .analise details { padding: 0 0 6px; }
-  .analise a { color: var(--verde); }
-  .vazio { color: var(--suave); padding: 40px 0; }
-  .semvideo { margin: auto; color: #b9b0a5; font-size: 13px; padding: 20px; text-align: center; }
-  footer { max-width: 1500px; margin: 0 auto; padding: 0 32px 40px; color: var(--suave); font-size: 12.5px; }
-  footer a { color: var(--verde); }
+
+  /* vídeo ao tamanho dele, sem barras pretas dos lados */
+  .video { display: flex; justify-content: center; align-items: center; padding: 0 16px; }
+  .video video { display: block; height: var(--video-alto); width: auto; max-width: 100%; aspect-ratio: 9 / 16; object-fit: contain;
+                 background: #1d1a17; border-radius: 10px; }
+  .video.largo video { width: 100%; height: auto; max-height: var(--video-alto); }
+  .video img { display: block; width: auto; height: auto; max-width: 100%; max-height: var(--video-alto); border-radius: 10px; }
+  .semvideo { margin: 0; height: var(--video-alto); max-width: 100%; aspect-ratio: 9 / 16; display: flex; align-items: center; justify-content: center;
+              padding: 20px; border-radius: 10px; background: var(--fundo); color: var(--suave); font-size: 13px; text-align: center; }
+  .qual { padding: 8px 20px 0; font-size: 11.5px; line-height: 1.4; color: var(--suave); text-align: center; text-wrap: balance; }
+  .qual.mau, .aviso { text-align: left; color: var(--rosa-texto); border-left: 2px solid var(--rosa); text-wrap: pretty; }
+  .qual.mau { margin: 12px 16px 0; padding: 1px 0 1px 10px; }
+  .aviso { margin: 0 16px 12px; padding: 1px 0 1px 10px; font-size: 12px; line-height: 1.4; }
+
+  dl { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin: 0; padding: 16px 16px 4px; }
+  dt { font-size: 12px; line-height: 1.3; color: var(--suave); }
+  dd { margin: 2px 0 0; font-size: 16px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+  .info { padding: 10px 16px 12px; font-size: 12.5px; line-height: 1.5; color: var(--suave); font-variant-numeric: tabular-nums; }
+
+  /* análise do vídeo */
+  .analise { margin: 0 16px 16px; padding: 12px 14px; font-size: 13px; background: var(--fundo); border-radius: 10px; }
+  .analise p { margin: 0 0 4px; }
+  .analise .gancho { font-size: 14px; line-height: 1.4; color: var(--texto); }
+  .analise .ritmo { font-size: 12px; color: var(--suave); font-variant-numeric: tabular-nums; margin-bottom: 8px; }
+  .analise .semvoz, .analise .lingua { color: var(--suave); font-size: 12.5px; }
+  .analise details { margin: 0 0 8px; }
+  .analise summary { position: relative; padding-left: 14px; font-size: 12.5px; color: var(--suave); cursor: pointer; list-style: none; }
+  .analise summary::-webkit-details-marker { display: none; }
+  .analise summary::before { content: ""; position: absolute; left: 1px; top: 50%; width: 6px; height: 10px; margin-top: -5px; background: var(--seta-dir) no-repeat center / contain; }
+  .analise details[open] > summary::before { left: 0; width: 9px; height: 6px; margin-top: -3px; background-image: var(--seta-baixo); }
+  .analise details p { margin: 6px 0 0; font-size: 12.5px; line-height: 1.5; white-space: pre-wrap; }
+  .analise a { font-size: 12.5px; color: var(--verde-link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  /* os details no fim do cartão, como uma lista das definições do iPhone */
+  .mais { border-top: 1px solid var(--linha-fina); }
+  .mais details + details { border-top: 1px solid var(--linha-fina); }
+  .mais summary { position: relative; padding: 11px 40px 11px 16px; font-size: 13.5px; color: var(--texto); cursor: pointer; list-style: none; }
+  .mais summary::-webkit-details-marker { display: none; }
+  .mais summary::after { content: ""; position: absolute; right: 18px; top: 50%; width: 7px; height: 12px; margin-top: -6px; background: var(--seta-dir) no-repeat center / contain; }
+  .mais details[open] > summary::after { right: 16px; width: 12px; height: 7px; margin-top: -3px; background-image: var(--seta-baixo); }
+  .mais summary:hover { background: #faf7f2; }
+  .mais summary .conta { float: right; color: var(--suave); font-variant-numeric: tabular-nums; }
+  .mais details > table { width: calc(100% - 32px); margin: 0 16px 12px; }
+  .mais details > p { margin: 0 16px 14px; font-size: 13px; line-height: 1.5; white-space: pre-wrap; }
+
+  table { border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+  th { text-align: left; font-weight: 600; font-size: 11.5px; color: var(--suave); padding: 8px 0 4px; }
+  th[colspan] { font-size: 12px; color: var(--texto); padding-top: 12px; }
+  tr:first-child th[colspan] { padding-top: 2px; }
+  td { padding: 4px 0; border-top: 1px solid var(--linha-fina); }
+  td:first-child { color: var(--suave); }
+  td:not(:first-child), th:not(:first-child) { text-align: right; padding-left: 10px; }
+
+  .vazio { grid-column: 1 / -1; color: var(--suave); padding: 40px 0; }
+  footer { margin: 0 var(--margem); padding: 18px 0 48px; border-top: 1px solid var(--linha); color: var(--suave); font-size: 12.5px; line-height: 1.55; }
+  footer p { margin: 0; max-width: 64em; text-wrap: pretty; }
+  footer a { color: var(--verde-link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  @media (min-width: 641px) {
+    .barra { position: sticky; top: 0; z-index: 20; }
+  }
+  /* janelas médias: os separadores encolhem para caberem todos numa linha */
+  @media (min-width: 641px) and (max-width: 1360px) {
+    nav { gap: 0 18px; }
+    nav button { font-size: 13.5px; }
+    nav small { font-size: 11.5px; }
+  }
+  @media (min-width: 641px) and (max-width: 1180px) {
+    nav { gap: 0 13px; }
+    nav button { font-size: 13px; }
+  }
+
+  @media (max-width: 640px) {
+    :root { --gutter: 16px; --video-alto: 560px; }
+    header { padding-top: 26px; }
+    h1 { font-size: 25px; }
+    .sub { font-size: 14px; }
+    nav { margin: 18px 0 0; padding: 0 16px; gap: 0 20px; }
+    .barra { padding-top: 14px; }
+    .resumo { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; gap: 6px 12px; width: 100%; }
+    .resumo .mercado { grid-column: 1 / -1; border: 0; padding: 0; font-size: 19px; line-height: 1.3; }
+    .resumo .num b { font-size: 15px; }
+    .resumo .num small { font-size: 11.5px; white-space: nowrap; }
+    .ordem { margin-left: 0; flex: 1 1 100%; }
+    .ordem select { flex: 1; min-width: 0; }
+    .explica { padding-bottom: 16px; }
+    main { gap: 16px; }
+  }
 </style>
 </head>
 <body>
@@ -94,7 +211,10 @@
     </select>
   </label>
 </div>
-<p class="explica" id="explica"></p>
+<div class="explica">
+  <p id="criterio"></p>
+  <details class="como" id="como"><summary>Como funciona o ranking</summary><p id="explica"></p></details>
+</div>
 <main id="lista"></main>
 <footer id="rodape"></footer>
 <!-- a app de Mac guardava o dados.js antigo em memória: o número no fim obriga a ler sempre o ficheiro de agora -->
@@ -122,11 +242,22 @@
     `Um criativo com 100 € a ROAS 3 ainda não provou nada; um com 16 000 € a ROAS 2,5 provou, e fica à frente. ` +
     `No separador Todos cada criativo é comparado com a média dos países onde correu, porque o ROAS normal de Portugal e o dos EUA não se comparam. ` +
     `Gasto, compras e ROAS são os do Gestor de Anúncios. CTR, CPC, gancho e retenção contam sem a Audience Network, onde os cliques são quase todos sem querer.`;
+  // no computador a explicação fica aberta; no telemóvel fica fechada para não empurrar os cartões
+  if (window.matchMedia && matchMedia("(min-width: 641px)").matches) document.getElementById("como").open = true;
 
   function desenhaMercados() {
-    document.getElementById("mercados").innerHTML = D.mercados.map((m) =>
+    const nav = document.getElementById("mercados");
+    const antes = nav.scrollLeft;
+    nav.innerHTML = D.mercados.map((m) =>
       `<button data-m="${m.chave}" class="${m.chave === atual ? "ativo" : ""}">${m.nome}<small>${m.gasto >= 1000 ? nf(m.gasto / 1000) + " mil €" : eur(m.gasto)}</small></button>`).join("");
+    nav.scrollLeft = antes;
     document.querySelectorAll("nav button[data-m]").forEach((b) => b.onclick = () => { atual = b.dataset.m; location.hash = "m=" + atual; desenha(); });
+    // quando a barra corre para o lado (telemóvel), o separador ativo fica sempre à vista
+    const a = nav.querySelector("button.ativo");
+    if (a && nav.scrollWidth > nav.clientWidth) {
+      const n = nav.getBoundingClientRect(), r = a.getBoundingClientRect();
+      if (r.left < n.left + 16 || r.right > n.right - 16) nav.scrollLeft += r.left - n.left - (n.width - r.width) / 2;
+    }
   }
 
   function linhas(pares) {
@@ -150,13 +281,13 @@
   function porPais(f) {
     const p = (f.paises || []).filter((x) => x.gasto >= 1);
     if (p.length < 2) return "";
-    return `<details><summary>Por país (${p.length})</summary><table><tr><th>País</th><th>Gasto</th><th>ROAS</th><th>Compras</th><th>CPA</th></tr>
+    return `<details><summary>Por país<span class="conta">${p.length}</span></summary><table><tr><th>País</th><th>Gasto</th><th>ROAS</th><th>Compras</th><th>CPA</th></tr>
       ${p.map((x) => `<tr><td>${esc(x.nome)}</td><td>${eur(x.gasto)}</td><td>${nf(x.roas, 2)}</td><td>${nf(x.compras)}</td><td>${eur(x.cpa, 2)}</td></tr>`).join("")}</table></details>`;
   }
   function mesAMes(f) {
     const ms = f.meses || [];
     if (ms.length < 2) return "";
-    return `<details><summary>Mês a mês (${ms.length} meses)</summary><table><tr><th>Mês</th><th>Gasto</th><th>ROAS</th><th>Compras</th></tr>
+    return `<details><summary>Mês a mês<span class="conta">${ms.length} meses</span></summary><table><tr><th>Mês</th><th>Gasto</th><th>ROAS</th><th>Compras</th></tr>
       ${ms.map((x) => `<tr><td>${mes(x.mes)}</td><td>${eur(x.gasto)}</td><td>${nf(x.roas, 2)}</td><td>${nf(x.compras)}</td></tr>`).join("")}</table></details>`;
   }
   const LINGUAS = { en: "inglês", it: "italiano", fr: "francês", de: "alemão", nl: "neerlandês" };
@@ -179,12 +310,19 @@
       : f.capa ? `<img src="media/${f.capa}.jpg" alt="">` : `<p class="semvideo">${f.tipo === "imagem" ? "Imagem por descarregar" : "A Meta já não tem este vídeo"}</p>`;
     const media = m.chave === "Todos" ? "a média dos países onde correu" : `a média ${DE[m.nome] || "de"} ${m.nome}`;
     const nivel = f.validacao === "Muito validado" || f.validacao === "Validado" ? "" : f.validacao === "Promissor" ? "meio" : "pouco";
+    const qual = q.nota ? `<div class="qual mau">${esc(q.nota)}</div>`
+      : q.original ? `<div class="qual">Ficheiro original do Drive (${q.p}p), sem a compressão da Meta.</div>`
+      : q.p ? `<div class="qual">Vídeo em ${q.p}p${q.codec === "av1" ? " (AV1)" : ""}, a melhor versão que a Meta tem.</div>` : "";
     return `<article class="cartao">
-      <div class="topo"><span class="pos">${f.pos}</span><span class="marca">${esc(f.marca)}<br>${f.n_ads} anúncio${f.n_ads === 1 ? "" : "s"}</span>
+      <div class="topo"><span class="pos">${f.pos}</span><span class="marca"><span class="nome">${esc(f.marca)}</span>${f.n_ads} anúncio${f.n_ads === 1 ? "" : "s"}</span>
         <span class="roas ${classe}"><b>${nf(f.roas, 2)}</b><span>ROAS</span></span></div>
-      <div class="garante ${nivel}"><b>Garante ROAS ${nf(f.roas_garantido, 2)}</b> · ${nf(f.forca, 2)}× ${media}<br>${f.validacao} · ${nf(f.compras)} compras em ${eur(f.gasto)}</div>
+      <div class="garante ${nivel}">
+        <p class="g1"><b>Garante ROAS<strong>${nf(f.roas_garantido, 2)}</strong></b><span>${f.validacao}</span></p>
+        <p>${nf(f.forca, 2)}× ${media}</p>
+        <p>${nf(f.compras)} compras em ${eur(f.gasto)}</p>
+      </div>
       <div class="video">${video}</div>
-      ${q.nota ? `<div class="aviso">${esc(q.nota)}</div>` : q.original ? `<div class="qual">Ficheiro original do Drive (${q.p}p), sem a compressão da Meta.</div>` : q.p ? `<div class="qual">Vídeo em ${q.p}p${q.codec === "av1" ? " (AV1)" : ""}, a melhor versão que a Meta tem.</div>` : ""}
+      ${qual}
       <dl>
         <div><dt>Gasto</dt><dd>${eur(f.gasto)}</dd></div>
         <div><dt>Vendas atribuídas</dt><dd>${eur(f.valor)}</dd></div>
@@ -200,11 +338,25 @@
       <div class="info">Desde ${data(f.criado)} · ${esc((f.contas || []).join(", "))}${m.chave === "Todos" ? `<br>${(f.paises || []).slice(0, 4).map((x) => `${esc(x.nome)} ${eur(x.gasto)}`).join(" · ")}` : ""}</div>
       ${f.an_pct >= 15 ? `<div class="aviso">${f.an_pct}% do gasto foi na Audience Network, onde as compras são menos certas.</div>` : ""}
       ${analise(f.analise, m)}
-      <details><summary>Todas as métricas</summary>${todasMetricas(f)}</details>
-      ${porPais(f)}
-      ${mesAMes(f)}
-      ${f.texto || f.titulo ? `<details><summary>Texto do anúncio</summary><p>${esc(f.titulo)}${f.titulo && f.texto ? "\n\n" : ""}${esc(f.texto)}</p></details>` : ""}
+      <div class="mais">
+        <details><summary>Todas as métricas</summary>${todasMetricas(f)}</details>
+        ${porPais(f)}
+        ${mesAMes(f)}
+        ${f.texto || f.titulo ? `<details><summary>Texto do anúncio</summary><p>${esc(f.titulo)}${f.titulo && f.texto ? "\n\n" : ""}${esc(f.texto)}</p></details>` : ""}
+      </div>
     </article>`;
+  }
+  // os poucos vídeos quadrados ou deitados ocupam a largura toda do cartão, em vez da moldura em pé
+  function enquadra() {
+    document.querySelectorAll("#lista .video video").forEach((v) => {
+      const i = new Image();
+      i.onload = () => {
+        if (i.naturalWidth / i.naturalHeight <= 0.8) return;
+        v.style.aspectRatio = i.naturalWidth + " / " + i.naturalHeight;
+        v.parentNode.classList.add("largo");
+      };
+      i.src = v.poster;
+    });
   }
   function desenha() {
     desenhaMercados();
@@ -212,16 +364,30 @@
     const o = document.getElementById("ordem").value;
     const itens = [...m.itens].sort((a, b) => o === "pos" ? a.pos - b.pos : SOBE.has(o) ? (a[o] ?? 1e9) - (b[o] ?? 1e9) : (b[o] ?? -1) - (a[o] ?? -1));
     document.getElementById("resumo").innerHTML =
-      `<b>${m.nome}</b> · gasto ${eur(m.gasto)} · ROAS médio <b>${nf(m.roas_medio, 2)}</b> · ${nf(m.compras)} compras · ${m.candidatos} criativos com pelo menos ${eur(m.minimo)} de gasto e 3 compras, aqui os ${m.itens.length} melhores`;
+      `<span class="mercado">${m.nome}</span>` +
+      `<span class="num"><small>Gasto</small><b>${eur(m.gasto)}</b></span>` +
+      `<span class="num"><small>ROAS médio</small><b>${nf(m.roas_medio, 2)}</b></span>` +
+      `<span class="num"><small>Compras</small><b>${nf(m.compras)}</b></span>` +
+      `<span class="num"><small>Criativos</small><b>${m.itens.length} de ${m.candidatos}</b></span>`;
+    document.getElementById("criterio").innerHTML =
+      `Contam os ${m.candidatos} criativos com pelo menos <b>${eur(m.minimo)}</b> de gasto e <b>3 compras</b>; aqui estão os ${m.itens.length} melhores.`;
     document.getElementById("lista").innerHTML = itens.length ? itens.map((f) => cartao(f, m)).join("") : `<p class="vazio">Sem criativos com gasto suficiente.</p>`;
+    enquadra();
   }
   document.getElementById("ordem").onchange = desenha;
-  document.getElementById("rodape").innerHTML =
+  document.getElementById("rodape").innerHTML = "<p>" +
     `Validação pelas compras: muito validado a partir de 300, validado a partir de 100, promissor a partir de 30. ` +
     `Os dólares das contas em USD passaram a euros pelo câmbio médio de cada mês. O mesmo vídeo carregado várias vezes conta como um criativo. ` +
     (D.sem_prova || []).filter((x) => x.pais !== "unknown").map((x) => `${x.nome} (${eur(x.gasto)}, ${nf(x.compras)} compras)`).join(", ").replace(/^(.+)$/, "Sem nenhum criativo com 3 compras, por isso sem separador: $1. ") +
-    `A Meta só guarda 37 meses de números. <a href="criativos.csv">Tabela com todos os criativos e todas as métricas (CSV)</a>.`;
+    `A Meta só guarda 37 meses de números. <a href="criativos.csv">Tabela com todos os criativos e todas as métricas (CSV)</a>.` + "</p>";
   desenha();
+  // linha fina por baixo do resumo só quando ele está preso ao topo
+  (() => {
+    const barra = document.querySelector(".barra");
+    const ve = () => barra.classList.toggle("colada", scrollY > 0 && getComputedStyle(barra).position === "sticky" && barra.getBoundingClientRect().top <= 0.5);
+    addEventListener("scroll", ve, { passive: true }); addEventListener("resize", ve); ve();
+  })();
 </script>
 <script src="metadados.js"></script>
 </body>
+</html>
