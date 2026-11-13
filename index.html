@@ -182,12 +182,48 @@
     .explica { padding-bottom: 16px; }
     main { gap: 16px; }
   }
+
+  /* ===== visual mais apelativo ===== */
+  .hero { margin: 24px var(--margem) 0; padding: 28px 30px; border-radius: 20px; color: #fff;
+          background: linear-gradient(135deg, #3f5a46 0%, #6f8f76 60%, #a3b89f 100%); box-shadow: 0 18px 40px -24px rgba(40,60,45,.6); }
+  .hero h1 { color: #fff; font-size: 32px; }
+  .hero h1 .emo { margin-right: 10px; }
+  .hero .sub { color: rgba(255,255,255,.85); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.25); padding: 6px 12px; border-radius: 10px; font-size: 13.5px; font-weight: 500; }
+  .chip b { font-weight: 700; }
+  nav { box-shadow: none; gap: 8px !important; padding-bottom: 4px; }
+  nav button { flex-direction: row; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--linha); border-radius: 12px; background: var(--cartao); color: var(--texto); }
+  nav button .flag { font-size: 20px; line-height: 1; }
+  nav button .t { display: flex; flex-direction: column; }
+  nav button.ativo { background: var(--texto); color: #fff; border-color: var(--texto); }
+  nav button.ativo small { color: rgba(255,255,255,.75); }
+  .resumo .mercado { border: 0; padding-right: 8px; font-size: 22px; }
+  .resumo .num { background: var(--cartao); border: 1px solid var(--linha); border-radius: 12px; padding: 8px 14px 9px 12px; flex-direction: row; align-items: center; gap: 10px; }
+  .resumo .num i { font-style: normal; font-size: 22px; }
+  .resumo .num span { display: flex; flex-direction: column; }
+  .resumo .num b { font-size: 18px; }
+  .criterio { display: inline-block; background: var(--areia-claro); color: var(--areia-texto); padding: 8px 12px; border-radius: 10px; }
+  .criterio b { color: var(--areia-texto) !important; }
+  .cartao { transition: transform .15s ease, box-shadow .15s ease; }
+  .cartao:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(60,45,30,.05), 0 18px 34px -18px rgba(60,45,30,.25); }
+  .cartao.p1 { border: 2px solid #d9b45a; } .cartao.p2 { border: 2px solid #b9bcc2; } .cartao.p3 { border: 2px solid #c79a6e; }
+  .pos { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; border-radius: 10px; background: var(--fundo); font-size: 17px; }
+  .pos.medalha { background: none; font-size: 30px; }
+  .topo { align-items: center; }
+  .selo { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,.6); }
+  dt .e { margin-right: 4px; }
+  @media (max-width: 640px) {
+    .hero { margin: 16px 16px 0; padding: 22px 18px; } .hero h1 { font-size: 25px; }
+    .resumo { grid-template-columns: 1fr 1fr; } .resumo .num { padding: 7px 10px; }
+  }
 </style>
 </head>
 <body>
-<header>
-  <h1>Os melhores criativos de sempre</h1>
+<header class="hero">
+  <h1><span class="emo">🏆</span>Os melhores criativos de sempre</h1>
   <p class="sub" id="sub"></p>
+  <div class="chips" id="chips"></div>
 </header>
 <nav id="mercados"></nav>
 <div class="barra">
@@ -212,8 +248,8 @@
   </label>
 </div>
 <div class="explica">
-  <p id="criterio"></p>
-  <details class="como" id="como"><summary>Como funciona o ranking</summary><p id="explica"></p></details>
+  <p><span class="criterio" id="criterio"></span></p>
+  <details class="como" id="como"><summary>💡 Como funciona o ranking</summary><p id="explica"></p></details>
 </div>
 <main id="lista"></main>
 <footer id="rodape"></footer>
@@ -236,20 +272,29 @@
   let atual = new URLSearchParams(location.hash.slice(1)).get("m") || "Todos";
   const total = D.mercados.find((m) => m.chave === "Todos");
   document.getElementById("sub").textContent =
-    `Todas as lojas na Meta (MisterTuga, MisterFútbol, TrainerDeutsch, ProfeIbero e BritsManager), ${D.mercados.length - 1} países, ${eur(total.gasto)} gastos, ROAS médio ${nf(total.roas_medio, 2)}. Números de ${D.feito}.`;
+    `Todas as lojas na Meta: MisterTuga, MisterFútbol, TrainerDeutsch, ProfeIbero e BritsManager. Números de ${D.feito}.`;
+  document.getElementById("chips").innerHTML = [
+    ["🛍️", "5", "lojas"], ["🌍", D.mercados.length - 1, "países"], ["💶", eur(total.gasto), "gastos"],
+    ["📈", nf(total.roas_medio, 2), "ROAS médio"], ["🛒", nf(total.compras), "compras"]
+  ].map(([e, v, t]) => `<span class="chip">${e} <b>${v}</b> ${t}</span>`).join("");
+  const BANDEIRA = { "Todos": "🌐", "Portugal": "🇵🇹", "Espanha": "🇪🇸", "EUA": "🇺🇸", "México": "🇲🇽", "Alemanha": "🇩🇪", "Reino Unido": "🇬🇧", "Itália": "🇮🇹",
+    "Bélgica": "🇧🇪", "Países Baixos": "🇳🇱", "Brasil": "🇧🇷", "França": "🇫🇷", "Canadá": "🇨🇦", "Dinamarca": "🇩🇰", "Suíça": "🇨🇭", "Áustria": "🇦🇹",
+    "Irlanda": "🇮🇪", "Suécia": "🇸🇪", "Noruega": "🇳🇴", "Polónia": "🇵🇱", "Austrália": "🇦🇺", "Chile": "🇨🇱", "Peru": "🇵🇪", "Argentina": "🇦🇷", "Colômbia": "🇨🇴" };
+  const flag = (n) => BANDEIRA[n] || "🏳️";
+  const SELO = { "Muito validado": "🔥", "Validado": "✅", "Promissor": "🌱" };
   document.getElementById("explica").innerHTML =
     `A ordem é pelo <b>ROAS garantido</b>: o ROAS que o criativo aguenta com 90% de certeza, tendo em conta o dinheiro que já gastou e as compras que fez. ` +
     `Um criativo com 100 € a ROAS 3 ainda não provou nada; um com 16 000 € a ROAS 2,5 provou, e fica à frente. ` +
     `No separador Todos cada criativo é comparado com a média dos países onde correu, porque o ROAS normal de Portugal e o dos EUA não se comparam. ` +
     `Gasto, compras e ROAS são os do Gestor de Anúncios. CTR, CPC, gancho e retenção contam sem a Audience Network, onde os cliques são quase todos sem querer.`;
   // no computador a explicação fica aberta; no telemóvel fica fechada para não empurrar os cartões
-  if (window.matchMedia && matchMedia("(min-width: 641px)").matches) document.getElementById("como").open = true;
+  
 
   function desenhaMercados() {
     const nav = document.getElementById("mercados");
     const antes = nav.scrollLeft;
     nav.innerHTML = D.mercados.map((m) =>
-      `<button data-m="${m.chave}" class="${m.chave === atual ? "ativo" : ""}">${m.nome}<small>${m.gasto >= 1000 ? nf(m.gasto / 1000) + " mil €" : eur(m.gasto)}</small></button>`).join("");
+      `<button data-m="${m.chave}" class="${m.chave === atual ? "ativo" : ""}"><span class="flag">${flag(m.nome)}</span><span class="t">${m.nome}<small>${m.gasto >= 1000 ? nf(m.gasto / 1000) + " mil €" : eur(m.gasto)}</small></span></button>`).join("");
     nav.scrollLeft = antes;
     document.querySelectorAll("nav button[data-m]").forEach((b) => b.onclick = () => { atual = b.dataset.m; location.hash = "m=" + atual; desenha(); });
     // quando a barra corre para o lado (telemóvel), o separador ativo fica sempre à vista
@@ -313,27 +358,28 @@
     const qual = q.nota ? `<div class="qual mau">${esc(q.nota)}</div>`
       : q.original ? `<div class="qual">Ficheiro original do Drive (${q.p}p), sem a compressão da Meta.</div>`
       : q.p ? `<div class="qual">Vídeo em ${q.p}p${q.codec === "av1" ? " (AV1)" : ""}, a melhor versão que a Meta tem.</div>` : "";
-    return `<article class="cartao">
-      <div class="topo"><span class="pos">${f.pos}</span><span class="marca"><span class="nome">${esc(f.marca)}</span>${f.n_ads} anúncio${f.n_ads === 1 ? "" : "s"}</span>
+    const MED = ["🥇", "🥈", "🥉"][f.pos - 1];
+    return `<article class="cartao ${MED ? "p" + f.pos : ""}">
+      <div class="topo"><span class="pos ${MED ? "medalha" : ""}" title="${f.pos}.º">${MED || f.pos}</span><span class="marca"><span class="nome">${esc(f.marca)}</span>${f.n_ads} anúncio${f.n_ads === 1 ? "" : "s"}</span>
         <span class="roas ${classe}"><b>${nf(f.roas, 2)}</b><span>ROAS</span></span></div>
       <div class="garante ${nivel}">
-        <p class="g1"><b>Garante ROAS<strong>${nf(f.roas_garantido, 2)}</strong></b><span>${f.validacao}</span></p>
-        <p>${nf(f.forca, 2)}× ${media}</p>
-        <p>${nf(f.compras)} compras em ${eur(f.gasto)}</p>
+        <p class="g1"><b>Garante ROAS<strong>${nf(f.roas_garantido, 2)}</strong></b><span class="selo">${SELO[f.validacao] || "🧪"} ${f.validacao}</span></p>
+        <p>⚡ ${nf(f.forca, 2)}× ${media}</p>
+        <p>🛒 ${nf(f.compras)} compras em ${eur(f.gasto)}</p>
       </div>
       <div class="video">${video}</div>
       ${qual}
       <dl>
-        <div><dt>Gasto</dt><dd>${eur(f.gasto)}</dd></div>
-        <div><dt>Vendas atribuídas</dt><dd>${eur(f.valor)}</dd></div>
-        <div><dt>Compras</dt><dd>${nf(f.compras)}</dd></div>
-        <div><dt>Custo por compra</dt><dd>${eur(f.cpa, 2)}</dd></div>
-        <div><dt>CTR (link)</dt><dd>${pct(f.ctr, 2)}</dd></div>
-        <div><dt>CPC (link)</dt><dd>${eur(f.cpc, 2)}</dd></div>
-        <div><dt>CPM</dt><dd>${eur(f.cpm, 2)}</dd></div>
-        <div><dt>Conversão</dt><dd>${pct(f.conv, 2)}</dd></div>
-        <div><dt>Gancho (3 s)</dt><dd>${pct(f.gancho)}</dd></div>
-        <div><dt>Retenção</dt><dd>${pct(f.retencao)}</dd></div>
+        <div><dt><span class="e">💶</span>Gasto</dt><dd>${eur(f.gasto)}</dd></div>
+        <div><dt><span class="e">💰</span>Vendas atribuídas</dt><dd>${eur(f.valor)}</dd></div>
+        <div><dt><span class="e">🛒</span>Compras</dt><dd>${nf(f.compras)}</dd></div>
+        <div><dt><span class="e">🏷️</span>Custo por compra</dt><dd>${eur(f.cpa, 2)}</dd></div>
+        <div><dt><span class="e">👆</span>CTR (link)</dt><dd>${pct(f.ctr, 2)}</dd></div>
+        <div><dt><span class="e">🖱️</span>CPC (link)</dt><dd>${eur(f.cpc, 2)}</dd></div>
+        <div><dt><span class="e">📣</span>CPM</dt><dd>${eur(f.cpm, 2)}</dd></div>
+        <div><dt><span class="e">🎯</span>Conversão</dt><dd>${pct(f.conv, 2)}</dd></div>
+        <div><dt><span class="e">🪝</span>Gancho (3 s)</dt><dd>${pct(f.gancho)}</dd></div>
+        <div><dt><span class="e">⏱️</span>Retenção</dt><dd>${pct(f.retencao)}</dd></div>
       </dl>
       <div class="info">Desde ${data(f.criado)} · ${esc((f.contas || []).join(", "))}${m.chave === "Todos" ? `<br>${(f.paises || []).slice(0, 4).map((x) => `${esc(x.nome)} ${eur(x.gasto)}`).join(" · ")}` : ""}</div>
       ${f.an_pct >= 15 ? `<div class="aviso">${f.an_pct}% do gasto foi na Audience Network, onde as compras são menos certas.</div>` : ""}
@@ -364,18 +410,16 @@
     const o = document.getElementById("ordem").value;
     const itens = [...m.itens].sort((a, b) => o === "pos" ? a.pos - b.pos : SOBE.has(o) ? (a[o] ?? 1e9) - (b[o] ?? 1e9) : (b[o] ?? -1) - (a[o] ?? -1));
     document.getElementById("resumo").innerHTML =
-      `<span class="mercado">${m.nome}</span>` +
-      `<span class="num"><small>Gasto</small><b>${eur(m.gasto)}</b></span>` +
-      `<span class="num"><small>ROAS médio</small><b>${nf(m.roas_medio, 2)}</b></span>` +
-      `<span class="num"><small>Compras</small><b>${nf(m.compras)}</b></span>` +
-      `<span class="num"><small>Criativos</small><b>${m.itens.length} de ${m.candidatos}</b></span>`;
+      `<span class="mercado">${flag(m.nome)} ${m.nome}</span>` +
+      [["💶", "Gasto", eur(m.gasto)], ["📈", "ROAS médio", nf(m.roas_medio, 2)], ["🛒", "Compras", nf(m.compras)], ["🎬", "Criativos", `${m.itens.length} de ${m.candidatos}`]]
+        .map(([e, t, v]) => `<span class="num"><i>${e}</i><span><small>${t}</small><b>${v}</b></span></span>`).join("");
     document.getElementById("criterio").innerHTML =
-      `Contam os ${m.candidatos} criativos com pelo menos <b>${eur(m.minimo)}</b> de gasto e <b>3 compras</b>; aqui estão os ${m.itens.length} melhores.`;
+      `🎯 Contam os ${m.candidatos} criativos com pelo menos <b>${eur(m.minimo)}</b> de gasto e <b>3 compras</b>; aqui estão os ${m.itens.length} melhores.`;
     document.getElementById("lista").innerHTML = itens.length ? itens.map((f) => cartao(f, m)).join("") : `<p class="vazio">Sem criativos com gasto suficiente.</p>`;
     enquadra();
   }
   document.getElementById("ordem").onchange = desenha;
-  document.getElementById("rodape").innerHTML = "<p>" +
+  document.getElementById("rodape").innerHTML = "<p>ℹ️ " +
     `Validação pelas compras: muito validado a partir de 300, validado a partir de 100, promissor a partir de 30. ` +
     `Os dólares das contas em USD passaram a euros pelo câmbio médio de cada mês. O mesmo vídeo carregado várias vezes conta como um criativo. ` +
     (D.sem_prova || []).filter((x) => x.pais !== "unknown").map((x) => `${x.nome} (${eur(x.gasto)}, ${nf(x.compras)} compras)`).join(", ").replace(/^(.+)$/, "Sem nenhum criativo com 3 compras, por isso sem separador: $1. ") +
