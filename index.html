@@ -395,11 +395,6 @@
       <div class="lado-d">
       <div class="topo"><span class="pos ${MED ? "medalha" : ""}" title="${f.pos}.º">${MED || f.pos}</span><span class="marca"><span class="nome">${esc(f.marca)}</span>${f.n_ads} anúncio${f.n_ads === 1 ? "" : "s"}</span>
         <span class="roas ${classe}"><b>${nf(f.roas, 2)}</b><span>ROAS</span></span></div>
-      <div class="garante ${nivel}">
-        <p class="g1"><b>Garante ROAS<strong>${nf(f.roas_garantido, 2)}</strong></b><span class="selo">${SELO[f.validacao] || "🧪"} ${f.validacao}</span></p>
-        <p>⚡ ${nf(f.forca, 2)}× ${media}</p>
-        <p>🛒 ${nf(f.compras)} compras em ${eur(f.gasto)}</p>
-      </div>
       <dl>
         <div><dt><span class="e">💶</span>Gasto</dt><dd>${eur(f.gasto)}</dd></div>
         <div><dt><span class="e">💰</span>Vendas atribuídas</dt><dd>${eur(f.valor)}</dd></div>
