@@ -414,7 +414,6 @@
       </dl>
       <div class="info">Desde ${data(f.criado)} · ${esc((f.contas || []).join(", "))}${m.chave === "Todos" ? `<br>${(f.paises || []).slice(0, 4).map((x) => `${esc(x.nome)} ${eur(x.gasto)}`).join(" · ")}` : ""}</div>
       ${f.an_pct >= 15 ? `<div class="aviso">${f.an_pct}% do gasto foi na Audience Network, onde as compras são menos certas.</div>` : ""}
-      ${analise(f.analise, m)}
       <div class="mais">
         <details><summary>Todas as métricas</summary>${todasMetricas(f)}</details>
         ${porPais(f)}
