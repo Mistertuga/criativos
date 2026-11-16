@@ -212,8 +212,21 @@
   .cartao { transition: transform .15s ease, box-shadow .15s ease; }
   .cartao:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(60,45,30,.05), 0 18px 34px -18px rgba(60,45,30,.25); }
   /* cartão deitado: vídeo à esquerda, dados à direita */
-  main { grid-template-columns: repeat(auto-fill, minmax(560px, 1fr)) !important; }
-  .cartao { display: grid !important; grid-template-columns: auto minmax(0, 1fr); align-items: start; --video-alto: 400px; }
+  :root { --largura: 100vw !important; --gutter: 24px !important; }
+  main { grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)) !important; gap: 14px !important; }
+  .cartao { display: grid !important; grid-template-columns: 183px minmax(0, 1fr); align-items: start; --video-alto: 300px; }
+  .lado-v { width: 183px; } .lado-v video { width: 169px !important; height: 300px !important; }
+  .lado-d .garante .g1 { flex-wrap: wrap; gap: 2px 8px; }
+  .lado-d .mais summary { padding-top: 9px; padding-bottom: 9px; font-size: 13px; }
+  .lado-d .topo { padding: 12px 14px 8px !important; }
+  .lado-d .garante { margin: 0 14px 10px; padding: 7px 10px; font-size: 12px; }
+  .lado-d .garante .g1 b strong { font-size: 15px; }
+  .lado-d .roas b { font-size: 20px; }
+  .lado-d dl { grid-template-columns: 1fr 1fr !important; padding: 2px 14px 2px !important; gap: 6px 10px !important; }
+  .lado-d dd { font-size: 13.5px !important; }
+  .lado-d dt { font-size: 10.5px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lado-d .info { font-size: 11.5px; padding-left: 14px; padding-right: 14px; }
+  .lado-v .qual { max-width: 169px; font-size: 10.5px; }
   .lado-v { padding: 14px 0 14px 14px; position: sticky; top: 0; }
   .lado-v .video { padding: 0; }
   .lado-v .qual { padding: 8px 0 0; max-width: 225px; }
